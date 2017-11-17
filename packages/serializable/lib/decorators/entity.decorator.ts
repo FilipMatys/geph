@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-import { IEntityDefinition } from './decorator.interfaces';
-import { EntityMetadataKey } from './entity.symbol';
+import { IEntityDefinition } from '../interfaces/serializable.interfaces';
+import { EntityMetadataKey } from '../symbols/entity.symbol';
 
 /**
  * Entity decorator

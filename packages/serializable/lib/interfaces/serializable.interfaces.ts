@@ -16,3 +16,18 @@ export interface IPropertyDefinition {
     isRequired?: boolean;
     isArray?: boolean;
 }
+
+/**
+ * Serializable schema
+ */
+export interface ISerializableSchema {
+    [name: string]: IPropertyDefinition;
+}
+
+/**
+ * Serializable definition
+ */
+export interface ISerializableDefinition {
+    entity?: IEntityDefinition;
+    properties?: ISerializableSchema;
+}

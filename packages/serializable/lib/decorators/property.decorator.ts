@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-import { IPropertyDefinition } from './decorator.interfaces';
-import { PropertyMetadataKey } from './property.symbol';
+import { IPropertyDefinition } from '../interfaces/serializable.interfaces';
+import { PropertyMetadataKey } from '../symbols/property.symbol';
 
 /**
  * Property definition
