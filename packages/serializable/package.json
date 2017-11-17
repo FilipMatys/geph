@@ -1,0 +1,26 @@
+{
+  "name": "@geph/serializable",
+  "version": "1.0.1",
+  "description": "Serializable module of Geph framework.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FilipMatys/geph.git"
+  },
+  "keywords": [
+    "preston"
+  ],
+  "author": "Filip Matys <matysfilip@gmail.com> (https://github.com/FilipMatys)",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.10"
+  }
+}

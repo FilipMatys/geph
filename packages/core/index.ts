@@ -1,1 +1,1 @@
-export * from './src/core';
+export * from './lib/core';
