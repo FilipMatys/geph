@@ -12,7 +12,7 @@ export class Serializer {
      * @param target 
      * @param propertyKey 
      */
-    public getPropertyDefinition(target: Object, propertyKey: string): IPropertyDefinition {
+    protected getPropertyDefinition(target: Object, propertyKey: string): IPropertyDefinition {
         return Reflect.getMetadata(PropertyMetadataKey, target, propertyKey)
     }
 
@@ -20,7 +20,7 @@ export class Serializer {
      * Get entity definition
      * @param target 
      */
-    public getEntityDefinition(target: Object): IEntityDefinition {
+    protected getEntityDefinition(target: Object): IEntityDefinition {
         return Reflect.getMetadata(EntityMetadataKey, target);
     }
 
