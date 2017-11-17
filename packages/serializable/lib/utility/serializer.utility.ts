@@ -7,16 +7,12 @@ import { PropertyMetadataKey } from '../symbols/property.symbol';
  * @description Processes entity and property definitions and creates schemas
  */
 export class Serializer {
-    // Do not allow to make instances
-    // of this class
-    private constructor() { };
-
     /**
      * Get property definition
      * @param target 
      * @param propertyKey 
      */
-    private static getPropertyDefinition(target: Object, propertyKey: string): IPropertyDefinition {
+    public getPropertyDefinition(target: Object, propertyKey: string): IPropertyDefinition {
         return Reflect.getMetadata(PropertyMetadataKey, target, propertyKey)
     }
 
@@ -24,7 +20,7 @@ export class Serializer {
      * Get entity definition
      * @param target 
      */
-    private static getEntityDefinition(target: Object): IEntityDefinition {
+    public getEntityDefinition(target: Object): IEntityDefinition {
         return Reflect.getMetadata(EntityMetadataKey, target);
     }
 
@@ -32,9 +28,9 @@ export class Serializer {
      * Get definition of given entity
      * @param entity 
      */
-    public static getDefiniton<T>(entity: new () => T): ISerializableDefinition {
+    public getDefiniton<T>(entity: new () => T): ISerializableDefinition {
         // Init definition
-        let definition: ISerializableDefinition = { properties: {} };
+        let definition: ISerializableDefinition = { entity: {}, properties: {} };
 
         // Get entity definition
         definition.entity = this.getEntityDefinition(entity);
@@ -57,8 +53,16 @@ export class Serializer {
 
         // Now iterate each property to get column definition
         propertyNames.forEach((name) => {
+            // Get property definition
+            let propertyDefinition = this.getPropertyDefinition(original, name);
+
+            // Check if definition was found
+            if (!propertyDefinition) {
+                return;
+            }
+
             // Assign property definition
-            (definition.properties as ISerializableSchema)[name] = this.getPropertyDefinition(original, name);
+            (definition.properties as ISerializableSchema)[name] = propertyDefinition;
         });
 
         // Return definition

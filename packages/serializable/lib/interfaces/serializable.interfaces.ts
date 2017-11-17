@@ -28,6 +28,6 @@ export interface ISerializableSchema {
  * Serializable definition
  */
 export interface ISerializableDefinition {
-    entity?: IEntityDefinition;
-    properties?: ISerializableSchema;
+    entity: IEntityDefinition;
+    properties: ISerializableSchema;
 }

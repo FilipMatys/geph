@@ -18,9 +18,11 @@
   "author": "Filip Matys <matysfilip@gmail.com> (https://github.com/FilipMatys)",
   "license": "MIT",
   "devDependencies": {
+    "@types/mongoose": "^4.7.27",
     "typescript": "^2.6.1"
   },
   "dependencies": {
+    "mongoose": "^4.13.3",
     "reflect-metadata": "^0.1.10"
   }
 }
