@@ -16,7 +16,7 @@ export class ValidationResult<T> {
     public isValid: boolean = true;
 
     // Data
-    public data: T | undefined;
+    public data: T;
 
     // List of errors
     public errors: IValidationMessage[] = [];
@@ -38,8 +38,10 @@ export class ValidationResult<T> {
      * @param data 
      */
     constructor(data?: T) {
-        // Assign data
-        this.data = data;
+        // Assign data if data is set
+        if (data) {
+            this.data = data;
+        }
     }
 
     /**
@@ -127,6 +129,67 @@ export class ValidationResult<T> {
      */
     public must(expression: boolean, error: string | IValidationMessage): boolean {
         return this.processValidationResult(expression, error);
+    }
+
+    /**
+     * Check that property is defined
+     * @param value 
+     */
+    public isDefined(value: (object: T) => any, error: string | IValidationMessage): boolean {
+        return this.processValidationResult(value(this.data) != null, error);
+    }
+
+    /**
+     * Check that property is not empty
+     * @param value 
+     * @param error 
+     */
+    public isNotEmpty(value: (object: T) => any, error: string | IValidationMessage): boolean {
+        // Get value
+        let _value = value(this.data);
+
+        // Check for array
+        if (_value instanceof Array) {
+            return this.processValidationResult(_value && _value.length > 0, error);
+        }
+        // Check for string
+        else if (typeof _value === "string") {
+            return this.processValidationResult(_value != null && _value.trim().length > 0, error);
+        }
+        // And others
+        else {
+            return this.processValidationResult(!!_value, error);
+        }
+    }
+
+    /**
+     * Check that property is greater or equal
+     * @param value 
+     * @param number 
+     * @param error 
+     */
+    public isGreaterOrEqual(value: (object: T) => number, number: number, error: string | IValidationMessage) : boolean {
+        return this.processValidationResult(value(this.data) >= number, error);
+    }
+
+    /**
+     * Check that property is lesser or equal
+     * @param value 
+     * @param number 
+     * @param error 
+     */
+    public isLesserOrEqual(value: (object: T) => number, number: number, error: string | IValidationMessage): boolean {
+        return this.processValidationResult(value(this.data) <= number, error);
+    }
+
+    /**
+     * Check that property is equal
+     * @param value 
+     * @param valueToCompare 
+     * @param error 
+     */
+    public isEqual(value: (object: T) => any, valueToCompare: any, error: string | IValidationMessage): boolean {
+        return this.processValidationResult(value(this.data) === valueToCompare, error);
     }
 
     /**
