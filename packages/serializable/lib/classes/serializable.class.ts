@@ -1,7 +1,7 @@
 /**
  * Serializable class
  */
-export class Serialiable {
+export class Serializable {
 
     // Identifier
     public _id?: any;

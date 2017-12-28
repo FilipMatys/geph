@@ -28,7 +28,7 @@ export class Serializer {
      * Get definition of given entity
      * @param entity 
      */
-    public getDefiniton<T>(entity: new () => T): ISerializableDefinition {
+    public getDefinition<T>(entity: new () => T): ISerializableDefinition | any {
         // Init definition
         let definition: ISerializableDefinition = { entity: {}, properties: {} };
 

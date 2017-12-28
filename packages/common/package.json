@@ -1,7 +1,7 @@
 {
-  "name": "@geph/serializable",
-  "version": "1.0.3",
-  "description": "Serializable module of Geph framework.",
+  "name": "@geph/common",
+  "version": "1.0.4",
+  "description": "Common module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,12 +18,10 @@
   "author": "Filip Matys <matysfilip@gmail.com> (https://github.com/FilipMatys)",
   "license": "MIT",
   "devDependencies": {
-    "@types/mongoose": "^4.7.27",
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "@geph/common": "^1.0.3",
-    "mongoose": "^4.13.8",
-    "reflect-metadata": "^0.1.10"
+    "reflect-metadata": "^0.1.10",
+    "@geph/core": "^1.0.2"
   }
 }

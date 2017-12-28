@@ -12,8 +12,8 @@ export class MongooseSerializer extends Serializer {
      * @param entity 
      */
     public getDefinition<T>(entity: new () => T): {
-        name?: string;
-        schema?: Schema
+        name: string;
+        schema: Schema
     } {
         // Init definition
         let schemaDefinition: SchemaDefinition = {};
@@ -22,7 +22,7 @@ export class MongooseSerializer extends Serializer {
         let schemaOptions: SchemaOptions = {};
 
         // Get definition
-        let definition = super.getDefiniton(entity);
+        let definition = super.getDefinition(entity);
 
         // Assign options
         schemaOptions._id = !!definition.entity._id;
