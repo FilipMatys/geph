@@ -1,6 +1,6 @@
 {
   "name": "@geph/serializable",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "Serializable module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@geph/common": "^1.0.3",
     "mongoose": "^4.13.8",
+    "@types/mongoose": "^4.7.27",
     "reflect-metadata": "^0.1.10"
   }
 }

@@ -76,6 +76,10 @@ export class MongooseSerializer extends Serializer {
 
             // Set common values
             schemaTypeOptions.required = !!propertyDefinition.isRequired;
+            // Check for enum
+            if (propertyDefinition.enum) {
+                schemaTypeOptions.enum = propertyDefinition.enum;
+            }
 
             // Now assign type options to schema definition
             if (propertyDefinition.isArray) {
