@@ -1,13 +1,13 @@
-import { CommonService, IPopulate, IQuery, IQueryResult } from '@geph/common';
+import { CommonService as _CommonService, IPopulate, IQuery, IQueryResult } from '@geph/common';
+import { Serializable } from '@geph/serializable';
 import { ValidationResult } from '@geph/core';
 import { model, Model } from 'mongoose';
-import { MongooseSerializer } from './serializer.extension';
-import { Serializable } from '../../classes/serializable.class';
+import { Serializer } from '../utility/serializer.utility';
 
 /**
  * Mongoose service
  */
-export abstract class MongooseService<T extends Serializable> extends CommonService<T> {
+export abstract class CommonService<T extends Serializable> extends _CommonService<T> {
 
     // Model
     protected _model: Model<any>;
@@ -26,7 +26,7 @@ export abstract class MongooseService<T extends Serializable> extends CommonServ
         super();
 
         // Init serializer
-        let serializer = new MongooseSerializer();
+        let serializer = new Serializer();
 
         // Get target definition
         let definition = serializer.getDefinition(target);

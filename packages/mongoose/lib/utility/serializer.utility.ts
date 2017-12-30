@@ -1,11 +1,10 @@
-import { Serializer } from '../../utility/serializer.utility';
-import { Types } from '../../enums/serializable.enums';
+import { Serializer as _Serializer, Types } from '@geph/serializable';
 import { Schema, SchemaDefinition, SchemaOptions, SchemaTypeOpts } from 'mongoose';
 
 /**
  * Mongoose serializer
  */
-export class MongooseSerializer extends Serializer {
+export class Serializer extends _Serializer {
 
     /**
      * Get definition of entity

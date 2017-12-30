@@ -1,7 +1,7 @@
 {
-  "name": "@geph/serializable",
-  "version": "1.0.10",
-  "description": "Serializable module of Geph framework.",
+  "name": "@geph/angular",
+  "version": "1.0.0",
+  "description": "Angular extension module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -20,7 +20,12 @@
   "devDependencies": {
     "typescript": "^2.6.1"
   },
-  "dependencies": {
-    "reflect-metadata": "^0.1.10"
+  "peerDependencies": {
+    "@angular/http": "^5.1.2",
+    "@angular/core": "^5.1.2",
+    "rxjs": "^5.5.6",
+    "@geph/core": "^1.0.3",
+    "@geph/serializable": "^1.0.3",
+    "@geph/common": "^1.0.3"
   }
 }

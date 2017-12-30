@@ -4,3 +4,5 @@
 /packages/serializable/dist
 /packages/common/node_modules
 /packages/common/dist
+/packages/mongoose/node_modules
+/packages/mongoose/dist
