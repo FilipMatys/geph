@@ -1,0 +1,121 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\matys\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@3.10.7
+3 info using node@v6.9.5
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\Repositories\\preston\\packages\\mongoose',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package.tgz not in flight; packing
+9 verbose correctMkdir C:\Users\matys\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+10 info lifecycle @geph/mongoose@1.0.2~prepublish: @geph/mongoose@1.0.2
+11 silly lifecycle @geph/mongoose@1.0.2~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ 'C:\\Users\\matys\\AppData\\Roaming\\npm-cache\\@geph\\mongoose\\1.0.2\\package.tgz',
+12 verbose tar pack   'C:\\Repositories\\preston\\packages\\mongoose' ]
+13 verbose tarball C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package.tgz
+14 verbose folder C:\Repositories\preston\packages\mongoose
+15 verbose addLocalTarball adding from inside cache C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package.tgz
+16 verbose correctMkdir C:\Users\matys\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+17 silly cache afterAdd @geph/mongoose@1.0.2
+18 verbose afterAdd C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package\package.json not in flight; writing
+19 verbose correctMkdir C:\Users\matys\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+20 verbose afterAdd C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package\package.json written
+21 silly publish { name: '@geph/mongoose',
+21 silly publish   version: '1.0.2',
+21 silly publish   description: 'Mongoose extension module of Geph framework.',
+21 silly publish   main: 'dist/index.js',
+21 silly publish   types: 'dist/index.d.ts',
+21 silly publish   scripts:
+21 silly publish    { build: 'tsc',
+21 silly publish      test: 'echo "Error: no test specified" && exit 1' },
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+https://github.com/FilipMatys/geph.git' },
+21 silly publish   keywords: [ 'preston' ],
+21 silly publish   author:
+21 silly publish    { name: 'Filip Matys',
+21 silly publish      email: 'matysfilip@gmail.com',
+21 silly publish      url: 'https://github.com/FilipMatys' },
+21 silly publish   license: 'MIT',
+21 silly publish   devDependencies: { '@types/mongoose': '^4.7.27', typescript: '^2.6.1' },
+21 silly publish   peerDependencies:
+21 silly publish    { '@types/mongoose': '^4.7.27',
+21 silly publish      mongoose: '^4.13.8',
+21 silly publish      '@geph/common': '^1.0.6',
+21 silly publish      '@geph/core': '^1.0.3',
+21 silly publish      '@geph/serializable': '^1.0.3' },
+21 silly publish   bugs: { url: 'https://github.com/FilipMatys/geph/issues' },
+21 silly publish   readme: 'ERROR: No README data found!',
+21 silly publish   homepage: 'https://github.com/FilipMatys/geph#readme',
+21 silly publish   _id: '@geph/mongoose@1.0.2',
+21 silly publish   _shasum: 'dd792279b859e4d0b253d830cc854c03228b4c8f',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name @geph/mongoose
+24 silly mapToRegistry scope (from package name) @geph
+25 verbose mapToRegistry no registry URL found in name for scope @geph
+26 silly mapToRegistry using default registry
+27 silly mapToRegistry registry https://registry.npmjs.org/
+28 silly mapToRegistry data Result {
+28 silly mapToRegistry   raw: '@geph/mongoose',
+28 silly mapToRegistry   scope: '@geph',
+28 silly mapToRegistry   escapedName: '@geph%2fmongoose',
+28 silly mapToRegistry   name: '@geph/mongoose',
+28 silly mapToRegistry   rawSpec: '',
+28 silly mapToRegistry   spec: 'latest',
+28 silly mapToRegistry   type: 'tag' }
+29 silly mapToRegistry uri https://registry.npmjs.org/@geph%2fmongoose
+30 verbose publish registryBase https://registry.npmjs.org/
+31 silly publish uploading C:\Users\matys\AppData\Roaming\npm-cache\@geph\mongoose\1.0.2\package.tgz
+32 verbose request uri https://registry.npmjs.org/@geph%2fmongoose
+33 verbose request sending authorization for write operation
+34 info attempt registry request try #1 at 10:28:04 AM
+35 verbose request using bearer token for auth
+36 verbose request id 2be8af59eef22fd6
+37 http request PUT https://registry.npmjs.org/@geph%2fmongoose
+38 http 403 https://registry.npmjs.org/@geph%2fmongoose
+39 verbose headers { 'content-type': 'application/json',
+39 verbose headers   'cache-control': 'max-age=0',
+39 verbose headers   'content-length': '91',
+39 verbose headers   'accept-ranges': 'bytes',
+39 verbose headers   date: 'Tue, 09 Jan 2018 09:28:07 GMT',
+39 verbose headers   via: '1.1 varnish',
+39 verbose headers   connection: 'keep-alive',
+39 verbose headers   'x-served-by': 'cache-fra19138-FRA',
+39 verbose headers   'x-cache': 'MISS',
+39 verbose headers   'x-cache-hits': '0',
+39 verbose headers   'x-timer': 'S1515490086.055784,VS0,VE1262' }
+40 verbose request invalidating C:\Users\matys\AppData\Roaming\npm-cache\registry.npmjs.org\_40geph_252fmongoose on PUT
+41 error publish Failed PUT 403
+42 verbose stack Error: You cannot publish over the previously published version 1.0.2. : @geph/mongoose
+42 verbose stack     at makeError (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+42 verbose stack     at CachingRegistryClient.<anonymous> (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+42 verbose stack     at Request._callback (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+42 verbose stack     at Request.self.callback (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:187:22)
+42 verbose stack     at emitTwo (events.js:106:13)
+42 verbose stack     at Request.emit (events.js:191:7)
+42 verbose stack     at Request.<anonymous> (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1044:10)
+42 verbose stack     at emitOne (events.js:96:13)
+42 verbose stack     at Request.emit (events.js:188:7)
+42 verbose stack     at IncomingMessage.<anonymous> (C:\Users\matys\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:965:12)
+43 verbose statusCode 403
+44 verbose pkgid @geph/mongoose
+45 verbose cwd C:\Repositories\preston\packages\mongoose
+46 error Windows_NT 10.0.16299
+47 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\matys\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+48 error node v6.9.5
+49 error npm  v3.10.7
+50 error code E403
+51 error You cannot publish over the previously published version 1.0.2. : @geph/mongoose
+52 error If you need help, you may report this error at:
+52 error     <https://github.com/npm/npm/issues>
+53 verbose exit [ 1, true ]

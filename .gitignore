@@ -6,3 +6,5 @@
 /packages/common/dist
 /packages/mongoose/node_modules
 /packages/mongoose/dist
+/packages/angular/node_modules
+/packages/angular/dist

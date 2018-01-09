@@ -175,6 +175,26 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
     }
 
     /**
+     * Peri hook for REMOVE
+     * @param validation 
+     * @param args 
+     */
+    protected periRemove(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Remove entity
+            this._model.remove({ _id: validation.data._id })
+                .then(() => resolve(validation))
+                .catch((error) => {
+                    // Handle save error
+                    this.handleDbError(error, validation)
+                        .then((validation) => resolve(validation))
+                        .catch((validation) => resolve(validation));
+                });
+        });
+    }
+
+    /**
      * Peri hook for CHANGE STATE
      * @param args 
      */

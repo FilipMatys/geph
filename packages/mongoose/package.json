@@ -1,6 +1,6 @@
 {
   "name": "@geph/mongoose",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mongoose extension module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
   "peerDependencies": {
     "@types/mongoose": "^4.7.27",
     "mongoose": "^4.13.8",
-    "@geph/common": "^1.0.3",
+    "@geph/common": "^1.0.6",
     "@geph/core": "^1.0.3",
     "@geph/serializable": "^1.0.3"
   }

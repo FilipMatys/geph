@@ -88,6 +88,46 @@ export abstract class CommonService<T> implements ICommonService<T> {
     }
 
     /**
+     * Pre hook for REMOVE
+     * @param validation 
+     * @param args 
+     */
+    protected preRemove(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
+        return Promise.resolve(validation);
+    }
+
+    /**
+     * Peri hook for REMOVE
+     * @param validation 
+     * @param args 
+     */
+    protected abstract periRemove(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>>;
+
+    /**
+     * Post hook for REMOVE
+     * @param validation 
+     * @param args 
+     */
+    protected postRemove(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
+        return Promise.resolve(validation);
+    }
+
+    /**
+     * Remove entity
+     * @param payload
+     * @param args 
+     */
+    public remove(payload: T, ...args: any[]): Promise<ValidationResult<T>> {
+        // Init validation
+        let validation = new ValidationResult<T>(payload);
+
+        // Execute hooks
+        return this.preRemove(validation, args)
+            .then((validation) => this.periRemove(validation, args))
+            .then((validation) => this.postRemove(validation, args));
+    }
+
+    /**
      * Pre hook for GET LIST
      * @param validation 
      * @param query 

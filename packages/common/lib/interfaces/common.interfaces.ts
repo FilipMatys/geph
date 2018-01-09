@@ -33,4 +33,6 @@ export interface ICommonService<T> {
     save(payload: T, ...args: any[]): Promise<ValidationResult<T>>;
     // Change state
     changeState(payload: T, ...args: any[]): Promise<ValidationResult<T>>;
+    // Remove
+    remove(payload: T, ...args: any[]): Promise<ValidationResult<T>>;
 }
