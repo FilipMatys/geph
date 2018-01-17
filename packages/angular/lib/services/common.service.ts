@@ -80,6 +80,19 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
     }
 
     /**
+     * Remove
+     * @param payload 
+     */
+    public remove(payload: T): Promise<ValidationResult<T>> {
+        return this.http.post(this.path.concat(['remove']).join('/'), JSON.stringify(payload), {
+            headers: this.alterHeaders(this.headers)
+        })
+            .toPromise()
+            .then((response: Response) => this.extractData(response))
+            .catch((response: Response) => this.handleError(response))
+    }
+
+    /**
      * Handle error
      * @param error 
      */

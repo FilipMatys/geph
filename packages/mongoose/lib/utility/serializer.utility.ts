@@ -42,7 +42,7 @@ export class Serializer extends _Serializer {
                 schemaTypeOptions.ref = this.getEntityDefinition(propertyDefinition.ref as new () => any).name;
             }
             // Check for embedded
-            else if (propertyDefinition.type === Schema.Types.Embedded) {
+            else if (propertyDefinition.type === Types.EMBEDDED) {
                 // Assign values
                 schemaTypeOptions.type = this.getDefinition(propertyDefinition.ref as new () => any).schema;
             }
@@ -66,6 +66,10 @@ export class Serializer extends _Serializer {
                     case Types.TEXT:
                         schemaTypeOptions.type = Schema.Types.String;
                         break;
+                    // Boolean
+                    case Types.BOOLEAN:
+                        schemaTypeOptions.type = Schema.Types.Boolean;
+                        break;
                     // Unknown
                     default:
                         throw new Error(`Invalid property definition "${propertyDefinition.type}" for "${name}"`);
@@ -75,6 +79,13 @@ export class Serializer extends _Serializer {
 
             // Set common values
             schemaTypeOptions.required = !!propertyDefinition.isRequired;
+            schemaTypeOptions.unique = !!propertyDefinition.isUnique;
+
+            // Check for default
+            if (propertyDefinition.default) {
+                schemaTypeOptions.default = propertyDefinition.default;
+            }
+
             // Check for enum
             if (propertyDefinition.enum) {
                 schemaTypeOptions.enum = propertyDefinition.enum;

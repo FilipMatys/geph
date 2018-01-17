@@ -8,3 +8,5 @@
 /packages/mongoose/dist
 /packages/angular/node_modules
 /packages/angular/dist
+/packages/common-backend/node_modules
+/packages/common-backend/dist

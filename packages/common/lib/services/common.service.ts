@@ -42,9 +42,9 @@ export abstract class CommonService<T> implements ICommonService<T> {
         let validation = new ValidationResult<T>(payload);
 
         // Execute hooks
-        return this.preGet(validation, args)
-            .then((validation) => this.periGet(validation, populate, args))
-            .then((validation) => this.postGet(validation, args))
+        return this.preGet(validation, ...args)
+            .then((validation) => this.periGet(validation, populate, ...args))
+            .then((validation) => this.postGet(validation, ...args))
     }
 
     /**
@@ -82,9 +82,9 @@ export abstract class CommonService<T> implements ICommonService<T> {
         let validation = new ValidationResult<T>(payload);
 
         // Execute hooks
-        return this.preSave(validation, args)
-            .then((validation) => this.periSave(validation, args))
-            .then((validation) => this.postSave(validation, args));
+        return this.preSave(validation, ...args)
+            .then((validation) => this.periSave(validation, ...args))
+            .then((validation) => this.postSave(validation, ...args));
     }
 
     /**
@@ -122,9 +122,9 @@ export abstract class CommonService<T> implements ICommonService<T> {
         let validation = new ValidationResult<T>(payload);
 
         // Execute hooks
-        return this.preRemove(validation, args)
-            .then((validation) => this.periRemove(validation, args))
-            .then((validation) => this.postRemove(validation, args));
+        return this.preRemove(validation, ...args)
+            .then((validation) => this.periRemove(validation, ...args))
+            .then((validation) => this.postRemove(validation, ...args));
     }
 
     /**
@@ -168,9 +168,9 @@ export abstract class CommonService<T> implements ICommonService<T> {
         });
 
         // Execute hooks
-        return this.preGetList(validation, query, args)
-            .then((validation) => this.periGetList(validation, query, args))
-            .then((validation) => this.postGetList(validation, query, args));
+        return this.preGetList(validation, query, ...args)
+            .then((validation) => this.periGetList(validation, query, ...args))
+            .then((validation) => this.postGetList(validation, query, ...args));
     }
 
     /**
@@ -208,8 +208,8 @@ export abstract class CommonService<T> implements ICommonService<T> {
         let validation = new ValidationResult<T>(payload);
 
         // Execute hooks
-        return this.preChangeState(validation, args)
-            .then((validation) => this.periChangeState(validation, args))
-            .then((validation) => this.postChangeState(validation, args));
+        return this.preChangeState(validation, ...args)
+            .then((validation) => this.periChangeState(validation, ...args))
+            .then((validation) => this.postChangeState(validation, ...args));
     }
 }

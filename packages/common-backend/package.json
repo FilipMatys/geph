@@ -1,7 +1,7 @@
 {
-  "name": "@geph/serializable",
-  "version": "1.0.13",
-  "description": "Serializable module of Geph framework.",
+  "name": "@geph/common-backend",
+  "version": "1.0.8",
+  "description": "Common (backend) module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -21,6 +21,11 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.10"
+    "reflect-metadata": "^0.1.10",
+    "@geph/core": "^1.0.2",
+    "@geph/common": "^1.0.9"
+  },
+  "peerDependencies": {
+    "express": "^4.16.2"
   }
 }

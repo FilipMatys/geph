@@ -15,6 +15,8 @@ export interface IPropertyDefinition {
     ref?: new() => any;
     isRequired?: boolean;
     isArray?: boolean;
+    isUnique?: boolean;
+    default?: any;
     enum?: any[];
 }
 

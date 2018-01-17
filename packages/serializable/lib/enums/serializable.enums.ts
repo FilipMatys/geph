@@ -6,5 +6,6 @@ export enum Types {
     REF,
     EMBEDDED,
     MIXED,
-    DATE
+    DATE,
+    BOOLEAN
 }

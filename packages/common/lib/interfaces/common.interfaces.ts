@@ -3,6 +3,7 @@ import { ValidationResult } from '@geph/core';
 // Query interface
 export interface IQuery {
     filter?: any;
+    term?: string;
     populate?: IPopulate[];
     limit?: number;
     skip?: number;
