@@ -5,6 +5,9 @@ import { Http, Headers, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+/**
+ * Angular service
+ */
 export class AngularService<T extends Serializable> implements ICommonService<T> {
 
     // Http
@@ -32,12 +35,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * @param payload 
      */
     public get(payload: T): Promise<ValidationResult<T>> {
-        return this.http.post(this.path.concat(['get']).join('/'), JSON.stringify(payload), {
-            headers: this.alterHeaders(this.headers)
-        })
-            .toPromise()
-            .then((response: Response) => this.extractData(response))
-            .catch((response: Response) => this.handleError(response))
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['get']).join('/'), JSON.stringify(payload), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => this.extractData(response))
+                .catch((response: Response) => this.handleError(response));
+        });
     }
 
     /**
@@ -45,12 +54,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * @param query 
      */
     public getList(query: IQuery): Promise<ValidationResult<IQueryResult<T>>> {
-        return this.http.post(this.path.concat(['list']).join('/'), JSON.stringify(query), {
-            headers: this.alterHeaders(this.headers)
-        })
-            .toPromise()
-            .then((response: Response) => this.extractData(response))
-            .catch((response: Response) => this.handleError(response))
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['list']).join('/'), JSON.stringify(query), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => this.extractData(response))
+                .catch((response: Response) => this.handleError(response));
+        });
     }
 
     /**
@@ -58,12 +73,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * @param payload 
      */
     public changeState(payload: T): Promise<ValidationResult<T>> {
-        return this.http.post(this.path.concat(['state']).join('/'), JSON.stringify(payload), {
-            headers: this.alterHeaders(this.headers)
-        })
-            .toPromise()
-            .then((response: Response) => this.extractData(response))
-            .catch((response: Response) => this.handleError(response))
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['state']).join('/'), JSON.stringify(payload), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => this.extractData(response))
+                .catch((response: Response) => this.handleError(response));
+        });
     }
 
     /**
@@ -71,12 +92,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * @param payload 
      */
     public save(payload: T): Promise<ValidationResult<T>> {
-        return this.http.post(this.path.concat(['save']).join('/'), JSON.stringify(payload), {
-            headers: this.alterHeaders(this.headers)
-        })
-            .toPromise()
-            .then((response: Response) => this.extractData(response))
-            .catch((response: Response) => this.handleError(response))
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['save']).join('/'), JSON.stringify(payload), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => this.extractData(response))
+                .catch((response: Response) => this.handleError(response));
+        });
     }
 
     /**
@@ -84,12 +111,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * @param payload 
      */
     public remove(payload: T): Promise<ValidationResult<T>> {
-        return this.http.post(this.path.concat(['remove']).join('/'), JSON.stringify(payload), {
-            headers: this.alterHeaders(this.headers)
-        })
-            .toPromise()
-            .then((response: Response) => this.extractData(response))
-            .catch((response: Response) => this.handleError(response))
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['remove']).join('/'), JSON.stringify(payload), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => this.extractData(response))
+                .catch((response: Response) => this.handleError(response));
+        });
     }
 
     /**
@@ -111,8 +144,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * Alter headers
      * @param headers
      */
-    protected alterHeaders(headers: Headers): Headers {
-        return headers;
+    protected alterHeaders(headers: Headers): Promise<Headers> {
+        return Promise.resolve(headers);
     }
 
     /**
