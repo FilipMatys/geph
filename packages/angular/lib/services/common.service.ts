@@ -126,6 +126,25 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
     }
 
     /**
+     * Remove list
+     * @param query 
+     */
+    public removeList(query: IQuery): Promise<ValidationResult<any>> {
+        // Create new promise
+        return new Promise((resolve) => {
+            // Get headers
+            this.alterHeaders(this.headers)
+                // Send request
+                .then((headers) => this.http.post(this.path.concat(['remove-list']).join('/'), JSON.stringify(query), {
+                    headers: headers
+                }).toPromise())
+                // Process response
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
+        });
+    }
+
+    /**
      * Handle error
      * @param error 
      */

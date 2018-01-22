@@ -195,6 +195,27 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
     }
 
     /**
+     * Peri hook for REMOVE LIST
+     * @param validation 
+     * @param query 
+     * @param args 
+     */
+    protected periRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Remove entity
+            this._model.remove(query.filter)
+                .then(() => resolve(validation))
+                .catch((error) => {
+                    // Handle save error
+                    this.handleDbError(error, validation)
+                        .then((validation) => resolve(validation))
+                        .catch((validation) => resolve(validation));
+                });
+        });
+    }
+
+    /**
      * Peri hook for CHANGE STATE
      * @param args 
      */

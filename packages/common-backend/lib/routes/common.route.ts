@@ -54,8 +54,19 @@ export abstract class CommonRoute {
      */
     protected static createRemoveRoute(router: Router) {
         router.post(`${this.prefix}/remove`, this.removeMiddleware(), (req: Request, res: Response, next: NextFunction) => {
-            // defaultly is set normal removal 
-            this.service.remove(req.body as any, false, this.extractRemoveRequestData(req, res))
+            this.service.remove(req.body as any, this.extractRemoveRequestData(req, res))
+                .then((validation) => res.json(validation))
+                .catch((validation) => res.json(validation));
+        });
+    }
+
+    /**
+     * Create remove list route
+     * @param router 
+     */
+    protected static createRemoveListRoute(router: Router) {
+        router.post(`${this.prefix}/remove-list`, this.removeListMiddleware(), (req: Request, res: Response, next: NextFunction) => {
+            this.service.removeList(req.body as any, this.extractRemoveListRequestData(req, res))
                 .then((validation) => res.json(validation))
                 .catch((validation) => res.json(validation));
         });
@@ -76,9 +87,6 @@ export abstract class CommonRoute {
 
     /**
      * Save middleware
-     * @param req 
-     * @param res 
-     * @param next 
      */
     protected static saveMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
@@ -86,9 +94,6 @@ export abstract class CommonRoute {
 
     /**
      * Get middleware
-     * @param req 
-     * @param res 
-     * @param next 
      */
     protected static getMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
@@ -96,9 +101,6 @@ export abstract class CommonRoute {
 
     /**
      * Get middleware
-     * @param req 
-     * @param res 
-     * @param next 
      */
     protected static singleMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
@@ -106,9 +108,6 @@ export abstract class CommonRoute {
 
     /**
      * Get list middleware
-     * @param req 
-     * @param res 
-     * @param next 
      */
     protected static getListMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
@@ -116,11 +115,15 @@ export abstract class CommonRoute {
 
     /**
      * Remove middleware
-     * @param req 
-     * @param res 
-     * @param next 
      */
     protected static removeMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
+        return this.middleware();
+    }
+
+    /**
+     * Remove list middleware
+     */
+    protected static removeListMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
     }
 
@@ -156,6 +159,15 @@ export abstract class CommonRoute {
      * Extract REMOVE request data
      */
     protected static extractRemoveRequestData(req: Request, res?: Response): any {
+        return this.extractRequestData(req, res);
+    }
+
+    /**
+     * Extract REMOVE LIST request data
+     * @param req 
+     * @param res 
+     */
+    protected static extractRemoveListRequestData(req: Request, res?: Response): any {
         return this.extractRequestData(req, res);
     }
 

@@ -128,6 +128,50 @@ export abstract class CommonService<T> implements ICommonService<T> {
     }
 
     /**
+     * Pre hook for REMOVE LIST
+     * @param validation 
+     * @param query 
+     * @param args 
+     */
+    protected preRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
+        return Promise.resolve(validation);
+    }
+
+    /**
+     * Peri hook for REMOVE LIST
+     * @param validation 
+     * @param query 
+     * @param args 
+     */
+    protected abstract periRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>>;
+
+    /**
+     * Post hook for REMOVE LIST
+     * @param validation 
+     * @param query 
+     * @param args 
+     */
+    protected postRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
+        return Promise.resolve(validation);
+    }
+
+    /**
+     * Remove list of entities
+     * @param query
+     * @param args 
+     */
+    public removeList(query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
+        // Init validation
+        let validation = new ValidationResult<any>();
+
+        // Execute hooks
+        return this.preRemoveList(validation, query, ...args)
+            .then((validation) => this.periRemoveList(validation, query, ...args))
+            .then((validation) => this.postRemoveList(validation, query, ...args));
+    }
+
+
+    /**
      * Pre hook for GET LIST
      * @param validation 
      * @param query 
@@ -143,7 +187,7 @@ export abstract class CommonService<T> implements ICommonService<T> {
      * @param query 
      * @param args 
      */
-    protected abstract periGetList(validation: ValidationResult<IQueryResult<T>>, query: IQuery, ...args: any[]): Promise<ValidationResult<IQueryResult<T>>>; 
+    protected abstract periGetList(validation: ValidationResult<IQueryResult<T>>, query: IQuery, ...args: any[]): Promise<ValidationResult<IQueryResult<T>>>;
 
     /**
      * Post hook for GET LIST

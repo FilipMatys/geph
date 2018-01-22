@@ -36,4 +36,6 @@ export interface ICommonService<T> {
     changeState(payload: T, ...args: any[]): Promise<ValidationResult<T>>;
     // Remove
     remove(payload: T, ...args: any[]): Promise<ValidationResult<T>>;
+    // Remove list
+    removeList(query: IQuery, ...args: any[]): Promise<ValidationResult<any>>;
 }
