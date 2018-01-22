@@ -44,8 +44,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                     headers: headers
                 }).toPromise())
                 // Process response
-                .then((response: Response) => this.extractData(response))
-                .catch((response: Response) => this.handleError(response));
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
         });
     }
 
@@ -63,8 +63,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                     headers: headers
                 }).toPromise())
                 // Process response
-                .then((response: Response) => this.extractData(response))
-                .catch((response: Response) => this.handleError(response));
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
         });
     }
 
@@ -82,8 +82,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                     headers: headers
                 }).toPromise())
                 // Process response
-                .then((response: Response) => this.extractData(response))
-                .catch((response: Response) => this.handleError(response));
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
         });
     }
 
@@ -101,8 +101,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                     headers: headers
                 }).toPromise())
                 // Process response
-                .then((response: Response) => this.extractData(response))
-                .catch((response: Response) => this.handleError(response));
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
         });
     }
 
@@ -120,8 +120,8 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                     headers: headers
                 }).toPromise())
                 // Process response
-                .then((response: Response) => this.extractData(response))
-                .catch((response: Response) => this.handleError(response));
+                .then((response: Response) => resolve(this.extractData(response)))
+                .catch((response: Response) => resolve(this.handleError(response)));
         });
     }
 
@@ -129,7 +129,7 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * Handle error
      * @param error 
      */
-    protected handleError(error: Response | any) {
+    protected handleError(error: Response | any): Promise<ValidationResult<any>> {
         // Init validation result
         var validation = new ValidationResult<T>();
 
