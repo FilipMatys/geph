@@ -5,6 +5,8 @@ export interface IEntityDefinition {
     name?: string;
     _id?: boolean;
     timestamps?: boolean;
+    index?: any;
+    autoIndex?: boolean;
 }
 
 /**
@@ -16,6 +18,7 @@ export interface IPropertyDefinition {
     isRequired?: boolean;
     isArray?: boolean;
     isUnique?: boolean;
+    isIndexed?: boolean;
     default?: any;
     enum?: any[];
 }

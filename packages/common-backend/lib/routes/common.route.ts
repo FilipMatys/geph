@@ -182,5 +182,6 @@ export abstract class CommonRoute {
         this.createGetRoute(router);
         this.createRemoveRoute(router);
         this.createGetListRoute(router);
+        this.createRemoveListRoute(router);
     }
 } 

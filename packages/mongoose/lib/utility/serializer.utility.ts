@@ -27,6 +27,11 @@ export class Serializer extends _Serializer {
         schemaOptions._id = !!definition.entity._id;
         schemaOptions.timestamps = !!definition.entity.timestamps;
 
+        // Check for auto index
+        if (definition.entity.autoIndex !== undefined) {
+            schemaOptions.autoIndex = !!definition.entity.autoIndex;
+        }
+
         // Now go trought properties and map them to mongoose types
         Object.keys(definition.properties).forEach((name) => {
             // Init schema type options
@@ -80,6 +85,11 @@ export class Serializer extends _Serializer {
             // Set common values
             schemaTypeOptions.required = !!propertyDefinition.isRequired;
             schemaTypeOptions.unique = !!propertyDefinition.isUnique;
+            
+            // Check if indexed is set
+            if (propertyDefinition.isIndexed !== undefined) {
+                schemaTypeOptions.index = !!propertyDefinition.isIndexed;
+            }
 
             // Check for default
             if (propertyDefinition.default) {
@@ -100,10 +110,18 @@ export class Serializer extends _Serializer {
             }
         });
 
+        // Create schema
+        let schema = new Schema(schemaDefinition, schemaOptions);
+
+        // Check for index
+        if (definition.entity.index) {
+            schema.index(definition.entity.index);
+        }
+
         // Return schema
         return {
             name: definition.entity.name,
-            schema: new Schema(schemaDefinition, schemaOptions)
+            schema: schema
         };
     }
 } 
