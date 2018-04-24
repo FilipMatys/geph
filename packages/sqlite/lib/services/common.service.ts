@@ -60,10 +60,23 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
 
     /**
      * Peri hook for Remove list
+     * @param validation 
+     * @param query 
      * @param args 
      */
-    protected periRemoveList(...args: any[]): Promise<ValidationResult<any>> {
-        throw new Error('Not implemented');
+    protected periRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
+        // Create new promise
+        return new Promise((resolve) => {
+            // Remove list
+            this._dao.removeList(query)
+                .then(() => resolve(validation))
+                .catch((error) => {
+                    // Handle db error
+                    this.handleDbError(error, validation)
+                        .then((validation) => resolve(validation))
+                        .catch((validation) => resolve(validation));
+                });
+        });
     }
 
     /**
