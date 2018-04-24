@@ -117,7 +117,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         // Check for filter
         if (query.filter && Object.keys(query.filter)) {
             // Get fields and values
-            const { fields, values } = this.getFieldsAndValues(query.filter);
+            const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
@@ -125,7 +125,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 let condition = index ? ',' : '';
 
                 // Set field and value
-                condition = `${condition}${fields[index]}=${values[index]}`;
+                condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
 
                 // Add condition to clause
                 where = where + condition;
@@ -157,7 +157,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         // Check for filter
         if (query.filter && Object.keys(query.filter)) {
             // Get fields and values
-            const { fields, values } = this.getFieldsAndValues(query.filter);
+            const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
@@ -165,7 +165,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 let condition = index ? ',' : '';
 
                 // Set field and value
-                condition = `${condition}${fields[index]}=${values[index]}`;
+                condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
 
                 // Add condition to clause
                 where = where + condition;
@@ -238,7 +238,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         // Check for filter
         if (query.filter && Object.keys(query.filter)) {
             // Get fields and values
-            const { fields, values } = this.getFieldsAndValues(query.filter);
+            const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
@@ -246,7 +246,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 let condition = index ? ',' : '';
 
                 // Set field and value
-                condition = `${condition}${fields[index]}=${values[index]}`;
+                condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
 
                 // Add condition to clause
                 where = where + condition;
@@ -337,13 +337,14 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
-     * Get fields and values
+     * Get fields and values (with operators)
      * @param entity 
      */
-    private getFieldsAndValues(entity: T): { fields: string[], values: any[] } {
+    private getFieldsAndValues(entity: T): { fields: string[], values: any[], operators: string[] } {
         // Init result
         let fields: string[] = [];
         let values: string[] = [];
+        let operators: string[] = [];
 
         // Iterate keys
         Object.keys(entity).forEach((name) => {
@@ -352,13 +353,35 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 return;
             }
 
-            // Add field and value
+            // Add field
             fields.push(name);
-            values.push(this.parseValueToSqLite(name, (entity as any)[name]));
+
+            // Now get property and init value
+            let property = (entity as any)[name];
+            let value;
+
+            // Check if property has $operator
+            if (property.$operator) {
+                // Assign value
+                value = property.value;
+
+                // Add operator
+                operators.push(property.$operator);
+            }
+            else {
+                // Assign value right away
+                value = property;
+
+                // Add operator
+                operators.push('=');
+            }
+
+            // Add value to list of values
+            values.push(this.parseValueToSqLite(name, value));
         });
 
         // Return result
-        return { fields, values };
+        return { fields, values, operators };
     }
 
     /**
