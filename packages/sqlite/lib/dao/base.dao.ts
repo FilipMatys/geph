@@ -170,7 +170,6 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 // Add condition to clause
                 where = where + condition;
             }
-
         }
 
         // Init select
@@ -212,11 +211,58 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
-     * Remove entity
+     * Remove entities
      * @param entity 
      */
     public remove(entity: T): Promise<T> {
-        return Promise.resolve(entity);
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Init query
+            let query: IQuery = { filter: { _id: entity._id } };
+
+            // Remove entity
+            this.removeList(query)
+                .then(() => resolve(entity))
+                .catch((err) => reject(err));
+        });
+    }
+
+    /**
+     * Remove list
+     * @param query 
+     */
+    public removeList(query: IQuery): Promise<any> {
+        // Init where clause
+        let where: string = '';
+
+        // Check for filter
+        if (query.filter && Object.keys(query.filter)) {
+            // Get fields and values
+            const { fields, values } = this.getFieldsAndValues(query.filter);
+
+            // Build where clause
+            for (let index = 0; index < fields.length; index++) {
+                // Init condition
+                let condition = index ? ',' : '';
+
+                // Set field and value
+                condition = `${condition}${fields[index]}=${values[index]}`;
+
+                // Add condition to clause
+                where = where + condition;
+            }
+        }
+
+        // Build query
+        const dbQuery: string = `DELETE FROM ${this.definition.name} ${where}`;
+
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Execute query
+            SQLiteDatabase.execute(dbQuery)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+        });
     }
 
     /**

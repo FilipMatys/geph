@@ -9,5 +9,6 @@ export interface IBaseDao<T extends Serializable> {
     save: (entity: T) => Promise<T>;
     get: (entity: T) => Promise<T>;
     remove: (entity: T) => Promise<T>;
+    removeList: (query: IQuery) => Promise<any>;
     getList: (query: IQuery) => Promise<T[]>;
 }
