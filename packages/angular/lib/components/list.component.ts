@@ -38,5 +38,5 @@ export abstract class ListComponent<T extends Serializable> extends Subscriber {
      * On did get list hook
      * @param validation 
      */
-    public abstract onDidGetList(validation: ValidationResult<IQueryResult<T>>): void;
+    protected abstract onDidGetList(validation: ValidationResult<IQueryResult<T>>): void;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@geph/serializable",
-  "version": "1.0.17",
-  "description": "Serializable module of Geph framework.",
+  "name": "@geph/sqlite",
+  "version": "1.0.1",
+  "description": "SQLite module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -21,6 +21,14 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.10"
+  },
+  "peerDependencies": {
+    "@geph/common": "^1.0.13",
+    "@geph/core": "^1.0.8",
+    "@geph/serializable": "^1.0.17",
+    "@ionic-native/core": "^4.7.0",
+    "@ionic-native/sqlite": "^4.7.0",
+    "bson-objectid": "^1.2.3",
+    "rxjs": "^5.5.10"
   }
 }

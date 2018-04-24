@@ -10,3 +10,5 @@
 /packages/angular/dist
 /packages/common-backend/node_modules
 /packages/common-backend/dist
+/packages/sqlite/node_modules
+/packages/sqlite/dist
