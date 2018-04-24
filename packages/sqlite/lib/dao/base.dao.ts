@@ -28,6 +28,22 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     constructor(definition: IEntityDefinition, schema: ISerializableSchema) {
         // Assign data
         this.definition = definition;
+
+        // We need to check definition before adding schema
+        if (this.definition._id) {
+            // Add identifier to schema
+            schema['_id'] = {
+                type: Types.TEXT
+            }
+        }
+
+        // Now check for timestamps
+        if (this.definition.timestamps) {
+            schema['createdAt'] = { type: Types.DATE };
+            schema['updatedAt'] = { type: Types.DATE };
+        }
+
+        // Assign schema
         this.schema = schema;
     }
 
