@@ -70,13 +70,23 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
      */
     public get(entity: T): Promise<T> {
         // Create new promise
-        return new Promise((resolve, reject) => {
+        return new Promise<T>((resolve, reject) => {
             // Init query
             let query: IQuery = { filter: { _id: entity._id } };
 
             // Try to find entity
-            this.getList(query);
-        })
+            this.getList(query)
+                .then((result) => {
+                    // Check if anything was found
+                    if (!result.length) {
+                        return resolve();
+                    }
+
+                    // Resolve result
+                    return resolve(result[0]);
+                })
+                .catch((err) => reject(err));
+        });
 
     }
 
