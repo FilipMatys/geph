@@ -40,7 +40,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
     /**
      * Initialize
      */
-    protected init(): Promise<ValidationResult<void>> {
+    public init(): Promise<ValidationResult<void>> {
         // Init validation
         const validation = new ValidationResult<void>();
 

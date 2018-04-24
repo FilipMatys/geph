@@ -49,7 +49,9 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             let query = `CREATE TABLE IF NOT EXISTS ${this.definition.name} (${fields.join(', ')})`;
 
             // Execute query
-            return SQLiteDatabase.execute(query);
+            return SQLiteDatabase.execute(query)
+                .then(() => resolve())
+                .catch((err) => reject(err));
         });
     }
 
