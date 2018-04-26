@@ -66,6 +66,18 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
             // Execute query
             return SQLiteDatabase.execute(query)
+                .then(() => {
+                    // Also create update queries to add any new columns
+                    return Promise.all(fields.map(f => new Promise((resolve) => {
+                        // Create query
+                        const query = `ALTER TABLE ${this.definition.name} ADD COLUMN ${f}`;
+
+                        // Execute query and ignore exception (column already there)
+                        SQLiteDatabase.execute(query)
+                            .then(() => resolve())
+                            .catch(() => resolve());
+                    })));
+                })
                 .then(() => resolve())
                 .catch((err) => reject(err));
         });

@@ -2,6 +2,8 @@
 import { Serializable, Serializer, ISerializableDefinition } from "@geph/serializable";
 import { ValidationResult } from "@geph/core";
 import { CommonService as _CommonService, IPopulate, IQueryResult, IQuery } from "@geph/common";
+import { Subject } from "rxjs/Subject";
+import { Observable } from 'rxjs/Observable';
 
 // Dao
 import { BaseDao } from "../dao/base.dao";
@@ -13,6 +15,11 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
 
     // Dao
     protected _dao: BaseDao<T>;
+
+    // Observable change source
+    private changeSource: Subject<void> = new Subject<void>();
+    // Observable
+    public change$: Observable<void> = this.changeSource.asObservable();
 
     // Dao getter
     public get dao(): BaseDao<T> {
@@ -56,6 +63,13 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
                         .catch((validation) => resolve(validation));
                 });
         });
+    }
+
+    /**
+     * Emit data change
+     */
+    public emitChange() {
+        this.changeSource.next();
     }
 
     /**
