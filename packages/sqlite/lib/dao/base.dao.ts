@@ -512,6 +512,13 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     private parseValueToSqLite(name: string, value: any): any {
         // Get type
         const type = this.schema[name].type;
+        const dflt = this.schema[name].default;
+
+        // Check if value is set
+        if (!value && dflt) {
+            // Assign default value 
+            value = dflt;
+        }
 
         // Parse based on type
         switch (type) {
