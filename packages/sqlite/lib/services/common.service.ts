@@ -8,22 +8,26 @@ import { Observable } from 'rxjs/Observable';
 // Dao
 import { BaseDao } from "../dao/base.dao";
 
+// Utilities
+import { SQLiteDatabase } from "../utility/database";
+
 /**
  * SQLite service
  */
 export class CommonService<T extends Serializable> extends _CommonService<T> {
 
-    // Dao
-    protected _dao: BaseDao<T>;
 
     // Observable change source
     private changeSource: Subject<void> = new Subject<void>();
     // Observable
     public change$: Observable<void> = this.changeSource.asObservable();
 
+    // Entity name
+    protected entityName: string;
+
     // Dao getter
     public get dao(): BaseDao<T> {
-        return this._dao;
+        return SQLiteDatabase.dao<T>(this.entityName);
     }
 
     /**
@@ -40,8 +44,11 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Get definition
         let definition = serializer.getDefinition(target) as ISerializableDefinition;
 
+        // Assign name
+        this.entityName = definition.entity.name as string;
+
         // Set dao
-        this._dao = new BaseDao(definition.entity, definition.properties);
+        SQLiteDatabase.register(this.entityName, new BaseDao<T>(definition.entity, definition.properties));
     }
 
     /**
@@ -54,7 +61,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise((resolve) => {
             // Initialize dao
-            this._dao.init()
+            this.dao.init()
                 .then(() => resolve(validation))
                 .catch((error) => {
                     // Handle db error
@@ -82,7 +89,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise((resolve) => {
             // Remove list
-            this._dao.removeList(query)
+            this.dao.removeList(query)
                 .then(() => resolve(validation))
                 .catch((error) => {
                     // Handle db error
@@ -110,7 +117,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise((resolve) => {
             // Remove entity
-            this._dao.remove(validation.data)
+            this.dao.remove(validation.data)
                 .then(() => resolve(validation))
                 .catch((error) => {
                     // Handle db error
@@ -130,7 +137,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise((resolve) => {
             // Get entity
-            this._dao.get(validation.data)
+            this.dao.get(validation.data)
                 .then(() => resolve(validation))
                 .catch((error) => {
                     // Handle db error
@@ -151,13 +158,13 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise((resolve) => {
             // Execute query
-            this._dao.getList(query)
+            this.dao.getList(query)
                 .then((items) => {
                     // Assign data
                     validation.data.items = items;
 
                     // Also get count of items
-                    return this._dao.count(query);
+                    return this.dao.count(query);
                 })
                 .then((count) => {
                     // Assign count
@@ -185,7 +192,7 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         // Create new promise
         return new Promise<ValidationResult<T>>((resolve) => {
             // Save entity
-            this._dao.save(validation.data)
+            this.dao.save(validation.data)
                 .then((entity) => {
                     // Assign data
                     validation.data = entity;
