@@ -12,6 +12,12 @@ export class SQLiteDatabase {
     // Database connection
     private static connection: SQLiteObject;
 
+    // File name
+    private static filename: string;
+
+    // Location
+    private static location: string;
+
     // Init sqlite service
     private static sqLite: SQLite = new SQLite();
 
@@ -61,6 +67,11 @@ export class SQLiteDatabase {
      * @param location 
      */
     public static connect(name: string, location: string = 'default'): Promise<SQLiteObject> {
+        // Check if connection already exists
+        if (this.connection) {
+            return Promise.resolve(this.connection);
+        }
+
         // Create new promise
         return new Promise((resolve, reject) => {
             // Try to create connection
@@ -72,6 +83,10 @@ export class SQLiteDatabase {
                 .then((connection: SQLiteObject) => {
                     // Assign object
                     this.connection = connection;
+
+                    // Set filename and location
+                    this.filename = name;
+                    this.location = location;
 
                     // Resolve connection
                     return resolve(this.connection);
@@ -86,12 +101,24 @@ export class SQLiteDatabase {
      * @param params
      */
     public static execute(query: string, params: any = {}): Promise<any> {
-        // Check if there is connection to database
-        if (!this.connection) {
-            return Promise.reject("No database connectio. Did you forget to call 'connect'?");
-        }
-
         // Create new promise
-        return this.connection.executeSql(query, params);
+        return new Promise((resolve, reject) => {
+            // Create new promise
+            new Promise((resolve) => {
+                // Check if there is connection to database
+                if (!this.connection) {
+                    // Connect to database
+                    return this.connect(this.filename, this.location)
+                        .then(() => resolve())
+                        .catch((err) => reject(err));
+                }
+
+                // Go to next step
+                return resolve();
+            })
+                .then(() => this.connection.executeSql(query, params))
+                .then((data) => resolve(data))
+                .catch((error) => reject(error));
+        });
     }
 }

@@ -84,6 +84,6 @@ export abstract class StatService<TEnum> {
         }
 
         // Assign value for isConstant flag
-        this.isConstant = hasNumber && hasString;
+        this.isConstant = !hasNumber || !hasString;
     }
 }

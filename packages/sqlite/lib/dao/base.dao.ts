@@ -373,7 +373,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             let value;
 
             // Check if property has $operator
-            if (property.$operator) {
+            if (property.$operator && typeof property !== 'undefined') {
                 // Assign value
                 value = property.value;
 

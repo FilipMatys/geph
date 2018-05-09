@@ -1,7 +1,7 @@
 import { CommonService as _CommonService, IPopulate, IQuery, IQueryResult } from '@geph/common';
 import { Serializable } from '@geph/serializable';
 import { ValidationResult } from '@geph/core';
-import { model, Model } from 'mongoose';
+import { model, Model, modelNames } from 'mongoose';
 import { Serializer } from '../utility/serializer.utility';
 
 /**
@@ -31,8 +31,20 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
         // Get target definition
         let definition = serializer.getDefinition(target);
 
-        // Set model
-        this._model = model(definition.name, definition.schema);
+        // We might want to work over entities, that are just
+        // abstract representation of one table. So we need
+        // to check that the model is not duplicated
+        if (modelNames().indexOf(definition.name) !== -1) {
+            // Output information
+            console.log('[INFO]: Attaching existing model instead of creating new.', definition.name);
+
+            // Get existing model
+            this._model = model(definition.name);
+        }
+        else {
+            // Create model
+            this._model = model(definition.name, definition.schema);
+        }
     }
 
     /**
