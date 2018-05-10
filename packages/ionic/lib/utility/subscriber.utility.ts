@@ -1,10 +1,10 @@
-import { OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
+// External modules
+import { Subscription } from "rxjs";
 
 /**
  * Subscriber utility
  */
-export class Subscriber implements OnDestroy {
+export class Subscriber {
 
     // Subscriptions
     private subscriptions: { [key: string]: Subscription } = {};
@@ -36,14 +36,6 @@ export class Subscriber implements OnDestroy {
 
         // Retrieve subscription
         return this.subscriptions[name];
-    }
-
-    /**
-     * On destroy hook
-     */
-    public ngOnDestroy() {
-        // Unsubscribe all subscriptions
-        this.unsubscribe();
     }
 
     /**

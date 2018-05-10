@@ -1,10 +1,8 @@
 // External modules
 import { Serializable } from "@geph/serializable";
 import { ValidationResult } from "@geph/core";
+import { CommonService } from "@geph/common";
 import { ActivatedRoute, Params } from "@angular/router";
-
-// Services
-import { AngularService } from "../services/common.service";
 
 // Utilities
 import { Subscriber } from "../utility/subscriber.utility";
@@ -15,7 +13,7 @@ import { Subscriber } from "../utility/subscriber.utility";
 export abstract class DetailComponent<T extends Serializable> extends Subscriber {
 
     // Service
-    protected abstract service: AngularService<T>;
+    protected abstract service: CommonService<T>;
 
     // Activated route
     protected abstract activatedRoute: ActivatedRoute;

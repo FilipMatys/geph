@@ -1,25 +1,24 @@
 // External modules
-import { Serializable } from "@geph/serializable";
 import { ValidationResult } from "@geph/core";
-import { IQueryResult, IQuery, CommonService } from "@geph/common";
-import { ActivatedRoute, Params } from "@angular/router";
+import { IQuery, IQueryResult, CommonService } from "@geph/common";
+import { Serializable } from "@geph/serializable";
 
-// Utilities
-import { Subscriber } from "../utility/subscriber.utility";
+// Pages
+import { Page } from "./base.page";
 
 /**
- * List component
+ * List base
  */
-export abstract class ListComponent<T extends Serializable> extends Subscriber {
+export abstract class ListPage<T extends Serializable> extends Page {
 
     // Service
     protected abstract service: CommonService<T>;
 
     /**
-     * On construct
+     * On ready
      */
-    protected onConstruct() {
-        // Get list of entities
+    protected onReady() {
+        // Get list
         this.getList({});
     }
 
@@ -27,7 +26,7 @@ export abstract class ListComponent<T extends Serializable> extends Subscriber {
      * Get list
      * @param query 
      */
-    protected getList(query: IQuery) {
+    protected getList(query: IQuery): void {
         this.service.getList(query).then(validation => this.onDidGetList(validation));
     }
 

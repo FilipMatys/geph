@@ -1,7 +1,7 @@
 {
-  "name": "@geph/angular",
-  "version": "1.0.11",
-  "description": "Angular extension module of Geph framework.",
+  "name": "@geph/ionic",
+  "version": "1.0.2",
+  "description": "Ionic extension module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -21,13 +21,10 @@
     "typescript": "^2.6.1"
   },
   "peerDependencies": {
-    "@angular/http": "^5.1.2",
-    "@angular/core": "^5.1.2",
-    "@angular/router": "^5.1.2",
-    "@angular/common": "^5.1.2",
-    "rxjs": "^5.5.6",
-    "@geph/core": "^1.0.3",
-    "@geph/serializable": "^1.0.3",
-    "@geph/common": "^1.0.3"
-  }
+    "@geph/common": "^1.0.13",
+    "@geph/core": "^1.0.8",
+    "@geph/serializable": "^1.0.17",
+    "rxjs": "^5.5.6"
+  },
+  "dependencies": {}
 }

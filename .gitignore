@@ -12,3 +12,5 @@
 /packages/common-backend/dist
 /packages/sqlite/node_modules
 /packages/sqlite/dist
+/packages/ionic/node_modules
+/packages/ionic/dist
