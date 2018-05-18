@@ -47,4 +47,22 @@ export class Enum {
         // Return result
         return result;
     }
+
+    /**
+     * Get name of given value
+     * @param payload 
+     * @param value 
+     */
+    public static getName(payload: Object, value: number): string {
+        return (payload as any)[value];
+    }
+
+    /**
+     * Get value of given name
+     * @param payload 
+     * @param name 
+     */
+    public static getValue(payload: Object, name: string): number {
+        return (payload as any)[name];
+    }
 }

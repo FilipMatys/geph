@@ -14,7 +14,7 @@ export interface IEntityDefinition {
  */
 export interface IPropertyDefinition {
     type?: any;
-    ref?: new() => any;
+    ref?: (new() => any) | string;
     isRequired?: boolean;
     isArray?: boolean;
     isUnique?: boolean;

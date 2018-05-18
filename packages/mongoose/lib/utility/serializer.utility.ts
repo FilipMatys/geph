@@ -40,14 +40,39 @@ export class Serializer extends _Serializer {
             // Get property definition
             let propertyDefinition = definition.properties[name];
 
+            // Check if type is defined
+            if (typeof propertyDefinition.type === 'undefined') {
+                throw new Error(`[ERROR/@geph]: Type not defined for '${name}' in '${entity.name}'`);
+            }
+
             // Check for reference
             if (propertyDefinition.type === Types.REF) {
+                // Check if ref is defined
+                if (!propertyDefinition.ref) {
+                    throw new Error(`[ERROR/@geph]: Missing type reference for '${name}' in '${entity.name}'`);
+                }
+
                 // Assign values
                 schemaTypeOptions.type = Schema.Types.ObjectId;
-                schemaTypeOptions.ref = this.getEntityDefinition(propertyDefinition.ref as new () => any).name;
+
+                // Check if ref is a string
+                // This is allowed to simplify model definition, but is not recommended!
+                if (typeof propertyDefinition.ref === 'string') {
+                    // Assign reference
+                    schemaTypeOptions.ref = propertyDefinition.ref;
+                }
+                // Reference is an object, so we need to get its definition
+                else {
+                    schemaTypeOptions.ref = this.getEntityDefinition(propertyDefinition.ref as new () => any).name;
+                }
             }
             // Check for embedded
             else if (propertyDefinition.type === Types.EMBEDDED) {
+                // Check if ref is defined
+                if (!propertyDefinition.ref) {
+                    throw new Error(`[ERROR/@geph]: Missing type reference for '${name}' in '${entity.name}'`);
+                }
+
                 // Assign values
                 schemaTypeOptions.type = this.getDefinition(propertyDefinition.ref as new () => any).schema;
             }
@@ -85,7 +110,7 @@ export class Serializer extends _Serializer {
             // Set common values
             schemaTypeOptions.required = !!propertyDefinition.isRequired;
             schemaTypeOptions.unique = !!propertyDefinition.isUnique;
-            
+
             // Check if indexed is set
             if (propertyDefinition.isIndexed !== undefined) {
                 schemaTypeOptions.index = !!propertyDefinition.isIndexed;

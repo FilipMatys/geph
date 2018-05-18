@@ -1,5 +1,5 @@
 import { ValidationResult } from '@geph/core';
-import { ICommonService, IPopulate, IQuery, IQueryResult } from '@geph/common';
+import { IPopulate, IQuery, IQueryResult, CommonService } from '@geph/common';
 import { Serializable } from '@geph/serializable';
 import { Http, Headers, Response } from '@angular/http';
 
@@ -8,10 +8,10 @@ import 'rxjs/add/operator/toPromise';
 /**
  * Angular service
  */
-export class AngularService<T extends Serializable> implements ICommonService<T> {
+export abstract class AngularService<T extends Serializable> extends CommonService<T> {
 
     // Http
-    protected http: Http;
+    protected abstract http: Http;
 
     // Path
     protected path: string[];
@@ -21,41 +21,45 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
 
     /**
      * Constructor
-     * @param http
      * @param path 
      */
-    constructor(http: Http, path: string[]) {
-        // Assign values
-        this.http = http;
+    constructor(path: string[]) {
+        // Call super constructor
+        super();
+
+        // Assign path
         this.path = path;
     }
 
     /**
-     * Get entity
-     * @param payload 
+     * Peri get hook
+     * @param validation 
+     * @param args 
      */
-    public get(payload: T): Promise<ValidationResult<T>> {
+    protected periGet(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
-                .then((headers) => this.http.post(this.path.concat(['get']).join('/'), JSON.stringify(payload), {
+                .then((headers) => this.http.post(this.path.concat(['get']).join('/'), JSON.stringify(validation.data), {
                     headers: headers
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 
     /**
-     * Get list
+     * Peri get list hook
+     * @param validation 
      * @param query 
+     * @param args 
      */
-    public getList(query: IQuery): Promise<ValidationResult<IQueryResult<T>>> {
+    protected periGetList(validation: ValidationResult<IQueryResult<T>>, query: IQuery, args: any[]): Promise<ValidationResult<IQueryResult<T>>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
@@ -64,45 +68,46 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 
     /**
-     * Change state
+     * Peri change state hook
      * @param payload 
      */
-    public changeState(payload: T): Promise<ValidationResult<T>> {
+    protected periChangeState(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
-                .then((headers) => this.http.post(this.path.concat(['state']).join('/'), JSON.stringify(payload), {
+                .then((headers) => this.http.post(this.path.concat(['state']).join('/'), JSON.stringify(validation.data), {
                     headers: headers
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 
     /**
-     * Save
-     * @param payload 
+     * 
+     * @param validation 
+     * @param args 
      */
-    public save(payload: T): Promise<ValidationResult<T>> {
+    protected periSave(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
-                .then((headers) => this.http.post(this.path.concat(['save']).join('/'), JSON.stringify(payload), {
+                .then((headers) => this.http.post(this.path.concat(['save']).join('/'), JSON.stringify(validation.data), {
                     headers: headers
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 
@@ -110,18 +115,18 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * Remove
      * @param payload 
      */
-    public remove(payload: T): Promise<ValidationResult<T>> {
+    protected periRemove(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
-                .then((headers) => this.http.post(this.path.concat(['remove']).join('/'), JSON.stringify(payload), {
+                .then((headers) => this.http.post(this.path.concat(['remove']).join('/'), JSON.stringify(validation.data), {
                     headers: headers
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 
@@ -129,9 +134,9 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
      * Remove list
      * @param query 
      */
-    public removeList(query: IQuery): Promise<ValidationResult<any>> {
+    protected periRemoveList(validation: ValidationResult<any>, query: IQuery, ...args: any[]): Promise<ValidationResult<any>> {
         // Create new promise
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Get headers
             this.alterHeaders(this.headers)
                 // Send request
@@ -140,7 +145,7 @@ export class AngularService<T extends Serializable> implements ICommonService<T>
                 }).toPromise())
                 // Process response
                 .then((response: Response) => resolve(this.extractData(response)))
-                .catch((response: Response) => resolve(this.handleError(response)));
+                .catch((response: Response) => reject(this.handleError(response)));
         });
     }
 

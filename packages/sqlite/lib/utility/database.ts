@@ -3,6 +3,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 // Data
 import { BaseDao } from "../dao/base.dao";
+import { RESERVED_WORDS } from "../constants/reserved.constants";
 
 /**
  * Sqlite database
@@ -59,6 +60,14 @@ export class SQLiteDatabase {
      */
     public static dao<T>(name: string): BaseDao<T> {
         return this.daos[name];
+    }
+
+    /**
+     * Check if given name is reserved
+     * @param name 
+     */
+    public static isReserved(name: string): boolean {
+        return RESERVED_WORDS[name.toUpperCase()];
     }
 
     /**

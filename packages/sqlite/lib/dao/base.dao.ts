@@ -58,6 +58,13 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
             // Get fields 
             Object.keys(this.schema).forEach((name) => {
+                // Check if name is reserved
+                if (SQLiteDatabase.isReserved(name)) {
+                    // Add underscore to name, so it does not
+                    // violate the reserved keyword
+                    name = `_${name}`;
+                }
+
                 fields.push(`${name} ${this.getSqLiteType(this.schema[name].type)}`);
             });
 
@@ -365,8 +372,13 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
                 return;
             }
 
-            // Add field
-            fields.push(name);
+            // Check if name is in reserved words
+            if (SQLiteDatabase.isReserved(name)) {
+                fields.push(`_${name}`);
+            }
+            else {
+                fields.push(name);
+            }
 
             // Now get property and init value
             let property = (entity as any)[name];
@@ -468,6 +480,12 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
         // Iterate row
         Object.keys(row).forEach((name) => {
+            // Check if name starts with underscore
+            if (name.startsWith("_")) {
+                // Remove underscore from name
+                name = name.slice(1);
+            }
+
             // Check if name is in schema
             if (!(name in this.schema)) {
                 return;
