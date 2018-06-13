@@ -1,6 +1,6 @@
 {
   "name": "@geph/serializable",
-  "version": "1.0.17",
+  "version": "1.1.0",
   "description": "Serializable module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

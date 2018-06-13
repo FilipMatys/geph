@@ -5,6 +5,7 @@ export interface IQuery {
     filter?: any;
     term?: string;
     populate?: IPopulate[];
+    distinct?: string;
     limit?: number;
     skip?: number;
     sort?: string;

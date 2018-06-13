@@ -1,6 +1,6 @@
 {
   "name": "@geph/mongoose",
-  "version": "1.0.11",
+  "version": "1.0.16",
   "description": "Mongoose extension module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,8 +18,12 @@
   "author": "Filip Matys <matysfilip@gmail.com> (https://github.com/FilipMatys)",
   "license": "MIT",
   "devDependencies": {
-    "@types/mongoose": "^4.7.27",
-    "typescript": "^2.6.1"
+    "@geph/common": "^1.1.1",
+    "@geph/core": "^1.0.11",
+    "@geph/serializable": "^1.1.0",
+    "@types/mongoose": "^4.7.36",
+    "mongoose": "^4.13.8",
+    "typescript": "^2.8.3"
   },
   "peerDependencies": {
     "@types/mongoose": "^4.7.27",

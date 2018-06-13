@@ -110,6 +110,11 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
             queryToExecute.skip(query.skip);
         }
 
+        // Set distinct
+        if (query.distinct) {
+            queryToExecute.distinct(query.distinct);
+        }
+
         // Set select
         if (query.select) {
             queryToExecute.select(query.select);
@@ -172,7 +177,7 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
             model.save()
                 .then((entity: any) => {
                     // Assign entity
-                    validation.data = entity;
+                    validation.data = entity.toObject();
 
                     // Pass result
                     return resolve(validation);
@@ -231,8 +236,8 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
      * Peri hook for CHANGE STATE
      * @param args 
      */
-    protected periChangeState(...args: any[]): any {
-        return new Error('Not implemented');
+    protected periChangeState(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
+        return this.periSave(validation, ...args);
     }
 
     /**
