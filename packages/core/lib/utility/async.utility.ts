@@ -28,8 +28,10 @@ export class Async {
         return new Promise<any[]>((resolve, reject) => {
             // Reduce list of promises
             promises.reduce((prev, next) => prev.then((result) => {
-                // Add result to list
-                results.push(result);
+                if (result) {
+                    // Add result to list
+                    results.push(result);
+                }
 
                 // Call next promise
                 return next;
@@ -44,9 +46,11 @@ export class Async {
 
                 // Otherwise return next promise in sequence
                 return next;
-            })).then((result) => {
-                // Add result to list
-                results.push(result);
+            }), Promise.resolve()).then((result) => {
+                if (result) {
+                    // Add result to list
+                    results.push(result);
+                }
 
                 // And call resolve
                 return resolve(results);
