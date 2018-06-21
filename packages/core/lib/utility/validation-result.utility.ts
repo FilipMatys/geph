@@ -16,7 +16,7 @@ export class ValidationResult<T> {
     public isValid: boolean = true;
 
     // Data
-    public data: T;
+    public data?: T;
 
     // List of errors
     public errors: IValidationMessage[] = [];
@@ -37,7 +37,7 @@ export class ValidationResult<T> {
      * Constructor
      * @param data 
      */
-    constructor(data?: T) {
+    constructor(data: T) {
         // Assign data if data is set
         if (data) {
             this.data = data;
@@ -135,7 +135,7 @@ export class ValidationResult<T> {
      * Check that property is defined
      * @param value 
      */
-    public isDefined(value: (object: T) => any, error: string | IValidationMessage): boolean {
+    public isDefined(value: (object: T | undefined) => any, error: string | IValidationMessage): boolean {
         return this.processValidationResult(value(this.data) != null, error);
     }
 
@@ -144,7 +144,7 @@ export class ValidationResult<T> {
      * @param value 
      * @param error 
      */
-    public isNotEmpty(value: (object: T) => any, error: string | IValidationMessage): boolean {
+    public isNotEmpty(value: (object: T | undefined) => any, error: string | IValidationMessage): boolean {
         // Get value
         let _value = value(this.data);
 
@@ -168,7 +168,7 @@ export class ValidationResult<T> {
      * @param number 
      * @param error 
      */
-    public isGreaterOrEqual(value: (object: T) => number, number: number, error: string | IValidationMessage) : boolean {
+    public isGreaterOrEqual(value: (object: T | undefined) => number, number: number, error: string | IValidationMessage) : boolean {
         return this.processValidationResult(value(this.data) >= number, error);
     }
 
@@ -178,7 +178,7 @@ export class ValidationResult<T> {
      * @param number 
      * @param error 
      */
-    public isLesserOrEqual(value: (object: T) => number, number: number, error: string | IValidationMessage): boolean {
+    public isLesserOrEqual(value: (object: T | undefined) => number, number: number, error: string | IValidationMessage): boolean {
         return this.processValidationResult(value(this.data) <= number, error);
     }
 
@@ -188,7 +188,7 @@ export class ValidationResult<T> {
      * @param valueToCompare 
      * @param error 
      */
-    public isEqual(value: (object: T) => any, valueToCompare: any, error: string | IValidationMessage): boolean {
+    public isEqual(value: (object: T | undefined) => any, valueToCompare: any, error: string | IValidationMessage): boolean {
         return this.processValidationResult(value(this.data) === valueToCompare, error);
     }
 
