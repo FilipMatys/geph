@@ -37,7 +37,7 @@ export class ValidationResult<T> {
      * Constructor
      * @param data 
      */
-    constructor(data: T) {
+    constructor(data?: T) {
         // Assign data if data is set
         if (data) {
             this.data = data;
