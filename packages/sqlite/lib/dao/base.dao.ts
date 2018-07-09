@@ -428,6 +428,22 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
+    * Make sure value is safe object
+    * @param value 
+    */
+    private safeObject(value: any): any {
+        return value === null ? null : { _id: value };
+    }
+
+    /**
+    * Make sure value is safe date
+    * @param value 
+    */
+    private safeDate(value: any): any {
+        return value === null ? null : new Date(value);
+    }
+
+    /**
      * Make sure value is safe integer
      * @param value 
      */
@@ -448,7 +464,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         switch (type) {
             // REFERENCE
             case Types.REF:
-                return { _id: value };
+                return this.safeObject(value);
 
             // TEXT
             case Types.TEXT:
@@ -456,7 +472,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
             // DATE
             case Types.DATE:
-                return new Date(value);
+                return this.safeDate(value);
 
             // REAL
             case Types.REAL:
