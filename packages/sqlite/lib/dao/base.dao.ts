@@ -452,6 +452,14 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
+    * Make sure value is safe embedded
+    * @param value 
+    */
+    private safeEmbedded(value: any): number {
+        return value === null || value === undefined || value === "undefined" ? null : JSON.parse(value);
+    }
+
+    /**
      * Parse value FROM sqlite
      * @param name 
      * @param value 
@@ -485,7 +493,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             // MIXED/EMBEDDED
             case Types.MIXED:
             case Types.EMBEDDED:
-                return JSON.parse(value);
+                return this.safeEmbedded(value);
 
             // BOOLEAN
             case Types.BOOLEAN:
