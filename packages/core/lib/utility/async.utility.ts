@@ -16,6 +16,53 @@ export class Async {
     }
 
     /**
+     * 
+     * @param items 
+     * @param func 
+     */
+    public static step<T, R>(items: T[], func: (item: T, index?: number, ...args: any[]) => Promise<R>, ...args: any[]): Promise<R[]> {
+        // Init result
+        const result: R[] = [];
+
+        // Check length
+        if (!items.length) {
+            // Return result
+            return Promise.resolve(result);
+        }
+
+        // Get copy
+        const copy: T[] = items.slice();
+        // Get first 
+        const first: T = copy.shift() as T;
+
+        // Init index
+        let index = 1;
+
+        // Create new promise
+        return new Promise<R[]>((resolve, reject) => {
+            // Reduce items
+            copy.reduce((promise: Promise<R>, item: T) => {
+                // Process promise
+                return promise.then((output) => {
+                    // Add output to result
+                    result.push(output);
+
+                    // Execute function
+                    return func(item, ++index, ...args);
+                });
+            }, func(first, index, ...args))
+                .then((output) => {
+                    // Add output to result
+                    result.push(output);
+
+                    // Resole result
+                    return resolve(result);
+                })
+                .catch((exception) => reject(exception));
+        });
+    }
+
+    /**
      * Sequence
      * @param promises 
      * @param breakOnException 
