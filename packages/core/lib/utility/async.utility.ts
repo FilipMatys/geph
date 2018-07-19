@@ -16,9 +16,10 @@ export class Async {
     }
 
     /**
-     * 
+     * Process one item after another one at a time
      * @param items 
      * @param func 
+     * @param args 
      */
     public static step<T, R>(items: T[], func: (item: T, index?: number, ...args: any[]) => Promise<R>, ...args: any[]): Promise<R[]> {
         // Init result
