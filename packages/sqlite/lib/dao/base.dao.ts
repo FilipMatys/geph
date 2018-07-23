@@ -326,6 +326,68 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
+     * Update list
+     * @param query 
+     * @param payload
+     */
+    public updateList(query: IQuery, payload: T): Promise<void> {
+        // Get fields and falues
+        const { fields, values } = this.getFieldsAndValues(payload);
+
+        // Init query
+        let dbQuery = `UPDATE ${this.definition.name} SET `;
+
+        // Iterate fields
+        for (let index = 0; index < fields.length; index++) {
+            // Init condition
+            let condition = index ? ', ' : '';
+
+            // Set field and value
+            condition = `${condition}${fields[index]}=${values[index]}`;
+
+            // Add condition to query
+            dbQuery = dbQuery + condition;
+        }
+
+        // Init where clause
+        let where: string | undefined = undefined;
+
+        // Check for filter
+        if (query.filter && Object.keys(query.filter).length) {
+            // Init where clause with WHERE keyword
+            where = "WHERE ";
+
+            // Get fields and values
+            const { fields, values, operators } = this.getFieldsAndValues(query.filter);
+
+            // Build where clause
+            for (let index = 0; index < fields.length; index++) {
+                // Init condition
+                let condition = index ? ',' : '';
+
+                // Set field and value
+                condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
+
+                // Add condition to clause
+                where = where + condition;
+            }
+        }
+
+        // Check for where
+        if (where) {
+            dbQuery = `${dbQuery} ${where}`;
+        }
+
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Execute query
+            SQLiteDatabase.execute(dbQuery)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+        });
+    }
+
+    /**
      * Update entity
      * @param entity 
      */
