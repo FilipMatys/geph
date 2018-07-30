@@ -273,7 +273,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
                 // Init condition
-                let condition = index ? ',' : '';
+                let condition = index ? ' AND ' : '';
 
                 // Set field and value
                 condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
@@ -363,7 +363,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
                 // Init condition
-                let condition = index ? ',' : '';
+                let condition = index ? ' AND ' : '';
 
                 // Set field and value
                 condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
