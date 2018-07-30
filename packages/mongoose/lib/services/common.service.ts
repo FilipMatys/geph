@@ -166,6 +166,12 @@ export abstract class CommonService<T extends Serializable> extends _CommonServi
         // Check if entity is new
         const isNew = !(validation.data as T)._id;
 
+        // entity is new
+        if (isNew) {
+            // for sure remove non-existent _id 
+            delete (validation.data as T)._id;
+        }
+
         // Create model
         let model = new this._model(validation.data);
         // Set isNew flag
