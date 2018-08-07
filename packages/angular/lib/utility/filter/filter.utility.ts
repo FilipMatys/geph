@@ -11,7 +11,7 @@ import { FilterItem } from "./filter-item.class";
 export class Filter {
 
     // Filter items
-    protected items: { [key: string]: FilterItem<any> } = {}
+    public items: { [key: string]: FilterItem<any> } = {}
 
     // On filter change
     protected changeSource: Subject<NavigationExtras> = new Subject<NavigationExtras>();
