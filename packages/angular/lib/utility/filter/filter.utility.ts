@@ -1,11 +1,10 @@
 // External modules
 import { CommonService } from "@geph/common";
 import { NavigationExtras, Params } from '@angular/router';
-import { Subject } from "rxjs/Subject";
-import { Observable } from "rxjs/Observable";
 
 // Data
 import { FilterItem } from "./filter-item.class";
+import { Subject, Observable } from "rxjs";
 
 /** Filter utility */
 export class Filter {
