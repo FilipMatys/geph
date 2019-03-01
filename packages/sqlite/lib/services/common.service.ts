@@ -2,8 +2,7 @@
 import { Serializable, Serializer, ISerializableDefinition } from "@geph/serializable";
 import { ValidationResult } from "@geph/core";
 import { CommonService as _CommonService, IPopulate, IQueryResult, IQuery } from "@geph/common";
-import { Subject } from "rxjs/Subject";
-import { Observable } from 'rxjs/Observable';
+import { Subject, Observable } from "rxjs";
 
 // Dao
 import { BaseDao } from "../dao/base.dao";

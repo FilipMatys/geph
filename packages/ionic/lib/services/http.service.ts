@@ -2,7 +2,7 @@
 import { ValidationResult } from "@geph/core";
 import { CommonService, IQuery, IQueryResult } from "@geph/common";
 import { Serializable } from "@geph/serializable";
-import { HTTP, HTTPResponse } from "@ionic-native/http";
+import { HTTP, HTTPResponse } from "@ionic-native/http/ngx";
 
 /**
  * Http service
