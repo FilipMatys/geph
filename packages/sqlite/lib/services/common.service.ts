@@ -2,8 +2,7 @@
 import { Serializable, Serializer, ISerializableDefinition } from "@geph/serializable";
 import { ValidationResult } from "@geph/core";
 import { CommonService as _CommonService, IPopulate, IQueryResult, IQuery } from "@geph/common";
-import { Subject } from "rxjs/Subject";
-import { Observable } from 'rxjs/Observable';
+import { Subject, Observable } from "rxjs";
 
 // Dao
 import { BaseDao } from "../dao/base.dao";
@@ -104,8 +103,8 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
      * Peri hook for Change state
      * @param args 
      */
-    protected periChangeState(...args: any[]): Promise<ValidationResult<T>> {
-        throw new Error('Not implemented');
+    protected periChangeState(validation: ValidationResult<T>, ...args: any[]): Promise<ValidationResult<T>> {
+        return this.periSave(validation, ...args);
     }
 
     /**
@@ -138,7 +137,13 @@ export class CommonService<T extends Serializable> extends _CommonService<T> {
         return new Promise((resolve) => {
             // Get entity
             this.dao.get(validation.data)
-                .then(() => resolve(validation))
+                .then((data) => {
+                    // Assign data
+                    validation.data = data;
+
+                    // Resolve
+                    return resolve(validation);
+                })
                 .catch((error) => {
                     // Handle db error
                     this.handleDbError(error, validation)

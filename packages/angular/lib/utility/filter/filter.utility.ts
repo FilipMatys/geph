@@ -1,17 +1,16 @@
 // External modules
 import { CommonService } from "@geph/common";
 import { NavigationExtras, Params } from '@angular/router';
-import { Subject } from "rxjs/Subject";
-import { Observable } from "rxjs/Observable";
 
 // Data
 import { FilterItem } from "./filter-item.class";
+import { Subject, Observable } from "rxjs";
 
 /** Filter utility */
 export class Filter {
 
     // Filter items
-    protected items: { [key: string]: FilterItem<any> } = {}
+    public items: { [key: string]: FilterItem<any> } = {}
 
     // On filter change
     protected changeSource: Subject<NavigationExtras> = new Subject<NavigationExtras>();
@@ -82,6 +81,12 @@ export class Filter {
             throw new Error(`Filter '${name}' not registered. Did you forget to call 'register(${name})?'`);
         }
 
+        // Check whether value changed
+        if (this.items[name].value === value) {
+            // Value did not change, so omit it
+            return;
+        }
+
         // Set value
         this.items[name].value = value;
 
@@ -118,7 +123,7 @@ export class Filter {
     private onChange() {
         // Init extras
         let extras: NavigationExtras = { queryParams: {} };
-        
+
         // Iterate filters
         for (let name in this.items) {
             // Check if item is set

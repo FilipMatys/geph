@@ -3,8 +3,6 @@ import { IPopulate, IQuery, IQueryResult, CommonService } from '@geph/common';
 import { Serializable } from '@geph/serializable';
 import { Http, Headers, Response } from '@angular/http';
 
-import 'rxjs/add/operator/toPromise';
-
 /**
  * Angular service
  */

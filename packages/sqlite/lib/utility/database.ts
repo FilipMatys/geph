@@ -1,5 +1,5 @@
 // External modules
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 // Data
 import { BaseDao } from "../dao/base.dao";

@@ -58,14 +58,17 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
             // Get fields 
             Object.keys(this.schema).forEach((name) => {
+                // Init normalized
+                let normalized = name;
+
                 // Check if name is reserved
                 if (SQLiteDatabase.isReserved(name)) {
                     // Add underscore to name, so it does not
                     // violate the reserved keyword
-                    name = `_${name}`;
+                    normalized = `_${normalized}`;
                 }
 
-                fields.push(`${name} ${this.getSqLiteType(this.schema[name].type)}`);
+                fields.push(`${normalized} ${this.getSqLiteType(this.schema[name].type)}`);
             });
 
             // Create table query
@@ -134,14 +137,17 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         let where: string = '';
 
         // Check for filter
-        if (query.filter && Object.keys(query.filter)) {
+        if (query.filter && Object.keys(query.filter).length) {
+            // Init where clause with WHERE keyword
+            where = "WHERE ";
+
             // Get fields and values
             const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
                 // Init condition
-                let condition = index ? ',' : '';
+                let condition = index ? ' AND ' : '';
 
                 // Set field and value
                 condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
@@ -169,19 +175,21 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
      * @param query 
      */
     public getList(query: IQuery): Promise<T[]> {
-
         // Init where clause
         let where: string = '';
 
         // Check for filter
-        if (query.filter && Object.keys(query.filter)) {
+        if (query.filter && Object.keys(query.filter).length) {
+            // Init where clause with WHERE keyword
+            where = "WHERE ";
+
             // Get fields and values
             const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
                 // Init condition
-                let condition = index ? ',' : '';
+                let condition = index ? ' AND ' : '';
 
                 // Set field and value
                 condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
@@ -255,14 +263,17 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         let where: string = '';
 
         // Check for filter
-        if (query.filter && Object.keys(query.filter)) {
+        if (query.filter && Object.keys(query.filter).length) {
+            // Init where clause with WHERE keyword
+            where = "WHERE ";
+
             // Get fields and values
             const { fields, values, operators } = this.getFieldsAndValues(query.filter);
 
             // Build where clause
             for (let index = 0; index < fields.length; index++) {
                 // Init condition
-                let condition = index ? ',' : '';
+                let condition = index ? ' AND ' : '';
 
                 // Set field and value
                 condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
@@ -315,6 +326,68 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
+     * Update list
+     * @param query 
+     * @param payload
+     */
+    public updateList(query: IQuery, payload: T): Promise<void> {
+        // Get fields and falues
+        const { fields, values } = this.getFieldsAndValues(payload);
+
+        // Init query
+        let dbQuery = `UPDATE ${this.definition.name} SET `;
+
+        // Iterate fields
+        for (let index = 0; index < fields.length; index++) {
+            // Init condition
+            let condition = index ? ', ' : '';
+
+            // Set field and value
+            condition = `${condition}${fields[index]}=${values[index]}`;
+
+            // Add condition to query
+            dbQuery = dbQuery + condition;
+        }
+
+        // Init where clause
+        let where: string | undefined = undefined;
+
+        // Check for filter
+        if (query.filter && Object.keys(query.filter).length) {
+            // Init where clause with WHERE keyword
+            where = "WHERE ";
+
+            // Get fields and values
+            const { fields, values, operators } = this.getFieldsAndValues(query.filter);
+
+            // Build where clause
+            for (let index = 0; index < fields.length; index++) {
+                // Init condition
+                let condition = index ? ' AND ' : '';
+
+                // Set field and value
+                condition = `${condition}${fields[index]}${operators[index]}${values[index]}`;
+
+                // Add condition to clause
+                where = where + condition;
+            }
+        }
+
+        // Check for where
+        if (where) {
+            dbQuery = `${dbQuery} ${where}`;
+        }
+
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Execute query
+            SQLiteDatabase.execute(dbQuery)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+        });
+    }
+
+    /**
      * Update entity
      * @param entity 
      */
@@ -344,7 +417,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         }
 
         // Add where
-        query = query + ` where _id = '${entity._id}'`;
+        query = query + ` WHERE _id = '${entity._id}'`;
 
         // Create new promise
         return new Promise((resolve, reject) => {
@@ -385,7 +458,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             let value;
 
             // Check if property has $operator
-            if (property.$operator && typeof property !== 'undefined') {
+            if (property && typeof property !== 'undefined' && property.$operator) {
                 // Assign value
                 value = property.value;
 
@@ -417,11 +490,35 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     /**
+    * Make sure value is safe object
+    * @param value 
+    */
+    private safeObject(value: any): any {
+        return value === null ? null : { _id: value };
+    }
+
+    /**
+    * Make sure value is safe date
+    * @param value 
+    */
+    private safeDate(value: any): any {
+        return value === null ? null : new Date(value);
+    }
+
+    /**
      * Make sure value is safe integer
      * @param value 
      */
     private safeInteger(value: any): number {
         return isNaN(value) || value === null ? 0 : parseInt(value);
+    }
+
+    /**
+    * Make sure value is safe embedded
+    * @param value 
+    */
+    private safeEmbedded(value: any): number {
+        return value === null || value === undefined || value === "undefined" ? null : JSON.parse(value);
     }
 
     /**
@@ -437,7 +534,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
         switch (type) {
             // REFERENCE
             case Types.REF:
-                return { _id: value };
+                return this.safeObject(value);
 
             // TEXT
             case Types.TEXT:
@@ -445,7 +542,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
             // DATE
             case Types.DATE:
-                return new Date(value);
+                return this.safeDate(value);
 
             // REAL
             case Types.REAL:
@@ -458,7 +555,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             // MIXED/EMBEDDED
             case Types.MIXED:
             case Types.EMBEDDED:
-                return JSON.parse(value);
+                return this.safeEmbedded(value);
 
             // BOOLEAN
             case Types.BOOLEAN:
@@ -480,8 +577,11 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
         // Iterate row
         Object.keys(row).forEach((name) => {
+            // Init normalized
+            let normalized = name;
+
             // Check if name starts with underscore
-            if (name.startsWith("_")) {
+            if (name.startsWith("_") && name !== "_id") {
                 // Remove underscore from name
                 name = name.slice(1);
             }
@@ -492,7 +592,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
             }
 
             // Map value
-            (result as any)[name] = this.parseValueFromSqLite(name, row[name]);
+            (result as any)[name] = this.parseValueFromSqLite(name, row[normalized]);
         });
 
         // Return result

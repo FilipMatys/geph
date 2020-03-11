@@ -14,7 +14,7 @@ import { Filter } from "../utility/filter";
 export abstract class FilteredListComponent<T extends Serializable> extends ListComponent<T>  {
 
     // Init filter
-    protected filter: Filter = new Filter();
+    public filter: Filter = new Filter();
 
     // Router
     protected abstract router: Router;

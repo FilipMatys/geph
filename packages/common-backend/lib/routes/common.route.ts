@@ -49,6 +49,18 @@ export abstract class CommonRoute {
     }
 
     /**
+     * Create change state route
+     * @param router 
+     */
+    protected static createChangeStateRoute(router: Router) {
+        router.post(`${this.prefix}/state`, this.getChangeStateMiddleware(), (req: Request, res: Response, next: NextFunction) => {
+            this.service.changeState(req.body as any, this.extractGetListRequestData(req, res))
+                .then((validation) => res.json(validation))
+                .catch((validation) => res.json(validation));
+        });
+    }
+
+    /**
      * Create remove routes
      * @param router 
      */
@@ -110,6 +122,13 @@ export abstract class CommonRoute {
      * Get list middleware
      */
     protected static getListMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
+        return this.middleware();
+    }
+
+    /**
+     * Change state middleware
+     */
+    protected static getChangeStateMiddleware(): (req: Request, res: Response, next: NextFunction) => Response | void {
         return this.middleware();
     }
 
@@ -183,5 +202,6 @@ export abstract class CommonRoute {
         this.createRemoveRoute(router);
         this.createGetListRoute(router);
         this.createRemoveListRoute(router);
+        this.createChangeStateRoute(router);
     }
 } 

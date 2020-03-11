@@ -63,7 +63,7 @@ export class FilterItem<T> {
             case FilterType.ARRAY:
             default:
                 return this.value;
-        
+
         }
     }
 
@@ -108,7 +108,9 @@ export class FilterItem<T> {
                     }
 
                     // Assign data
-                    this.value = validation.data;
+                    if (validation.data) {
+                        this.value = validation.data;
+                    }
                 });
         }
     }
