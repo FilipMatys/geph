@@ -1,6 +1,6 @@
 {
   "name": "@geph/ionic",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Ionic extension module of Geph framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,12 +18,12 @@
   "author": "Filip Matys <matysfilip@gmail.com> (https://github.com/FilipMatys)",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.6.1",
-    "@ionic-native/http": "^4.7.0",
-    "@geph/common": "^1.0.13",
-    "@geph/core": "^1.0.8",
-    "@geph/serializable": "^1.0.17",
-    "rxjs": "^5.5.6"
+    "@geph/common": "^1.1.1",
+    "@geph/core": "^1.0.14",
+    "@geph/serializable": "^1.1.0",
+    "@ionic-native/http": "^5.19.1",
+    "rxjs": "^5.5.12",
+    "typescript": "^2.9.2"
   },
   "peerDependencies": {
     "@geph/common": "^1.0.13",

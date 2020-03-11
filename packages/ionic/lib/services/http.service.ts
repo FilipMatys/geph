@@ -2,7 +2,7 @@
 import { ValidationResult } from "@geph/core";
 import { CommonService, IQuery, IQueryResult } from "@geph/common";
 import { Serializable } from "@geph/serializable";
-import { HTTP, HTTPResponse } from "@ionic-native/http";
+import { HTTP, HTTPResponse } from "@ionic-native/http/ngx";
 
 /**
  * Http service
@@ -13,7 +13,7 @@ export abstract class HttpService<T extends Serializable> extends CommonService<
     protected abstract http: HTTP;
 
     // Serializer
-    protected serializer: string = 'json';
+    protected serializer: "json" | "urlencoded" | "utf8" | "multipart" = "json";
 
     // Path
     protected path: string[] = [];
@@ -93,7 +93,7 @@ export abstract class HttpService<T extends Serializable> extends CommonService<
      * Make request
      * @param method 
      */
-    protected request<V>(method: 'POST' | 'GET' | 'PUT' | 'DELETE', relative: string[], data: any = {}, serializer: string = this.serializer): Promise<ValidationResult<V>> {
+    protected request<V>(method: 'POST' | 'GET' | 'PUT' | 'DELETE', relative: string[], data: any = {}, serializer: "json" | "urlencoded" | "utf8" | "multipart" = this.serializer): Promise<ValidationResult<V>> {
         // Create new promise
         return new Promise<ValidationResult<V>>((resolve) => {
             // Get headers
