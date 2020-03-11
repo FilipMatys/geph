@@ -130,4 +130,30 @@ export class SQLiteDatabase {
                 .catch((error) => reject(error));
         });
     }
+
+    /**
+     * Execute batch
+     * @param queries 
+     */
+    public static batch(queries: string[]): Promise<any> {
+        // Create new promise
+        return new Promise((resolve, reject) => {
+            // Create new promise
+            new Promise((resolve) => {
+                // Check if there is connection to database
+                if (!this.connection) {
+                    // Connect to database
+                    return this.connect(this.filename, this.location)
+                        .then(() => resolve())
+                        .catch((err) => reject(err));
+                }
+
+                // Go to next step
+                return resolve();
+            })
+                .then(() => this.connection.sqlBatch(queries))
+                .then((data) => resolve(data))
+                .catch((error) => reject(error));
+        });
+    }
 }
