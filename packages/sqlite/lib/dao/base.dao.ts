@@ -15,10 +15,10 @@ import { SQLiteDatabase } from "../utility/database";
 export class BaseDao<T extends Serializable> implements IBaseDao<T> {
 
     // Schema
-    protected schema: ISerializableSchema;
+    public schema: ISerializableSchema;
 
     // Definition
-    protected definition: IEntityDefinition
+    public definition: IEntityDefinition
 
     /**
      * Constructor
@@ -391,7 +391,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
      * Update entity
      * @param entity 
      */
-    private update(entity: T): Promise<T> {
+    public update(entity: T): Promise<T> {
         // Check for timestamps
         if (this.definition.timestamps) {
             // Assign date
@@ -432,7 +432,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
      * Get fields and values (with operators)
      * @param entity 
      */
-    private getFieldsAndValues(entity: T): { fields: string[], values: any[], operators: string[] } {
+    public getFieldsAndValues(entity: T): { fields: string[], values: any[], operators: string[] } {
         // Init result
         let fields: string[] = [];
         let values: string[] = [];
@@ -571,7 +571,7 @@ export class BaseDao<T extends Serializable> implements IBaseDao<T> {
      * Parse row
      * @param row 
      */
-    private parseRow(row: any): T {
+    public parseRow(row: any): T {
         // Init result
         let result: T = {} as any;
 
