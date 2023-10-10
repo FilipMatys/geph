@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@angular/common": "~7.1.0",
-    "@angular/core": "~7.1.0",
+    "@angular/core": "~10.2.5",
     "@angular/http": "~7.1.0",
     "@angular/router": "~7.1.0",
     "@geph/core": "^1.0.14",
@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@angular/common": "~7.1.0",
-    "@angular/core": "~7.1.0",
+    "@angular/core": "~10.2.5",
     "@angular/http": "~7.1.0",
     "@angular/router": "~7.1.0",
     "rxjs": "^6.3.3",
